@@ -52,8 +52,8 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    if (!sessionStorage.getItem('votedItems')) {
-      sessionStorage.setItem('votedItems', JSON.stringify([]));
+    if (!localStorage.getItem('votedItems')) {
+      localStorage.setItem('votedItems', JSON.stringify([]));
     }
 
     this.loadProducts();
@@ -78,11 +78,11 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
         )
       )
       .subscribe((resp) =>
-        sessionStorage.setItem('products', JSON.stringify(resp))
+      localStorage.setItem('products', JSON.stringify(resp))
       );
 
     this.filteredMachineProducts$.next(
-      JSON.parse(sessionStorage.getItem('products') || '{}')
+      JSON.parse(localStorage.getItem('products') || '{}')
     );
   }
 
@@ -247,16 +247,16 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   voteItem(item: MachineProduct, vote: VoteEnum) {
-    let items = JSON.parse(sessionStorage.getItem('products') || '{}');
+    let items = JSON.parse(localStorage.getItem('products') || '{}');
 
     for (let i = 0; i < items.length; i++) {
       if (items[i].id === item.id) {
         items.splice(i, 1);
       }
     }
-    sessionStorage.setItem('products', JSON.stringify(items));
+    localStorage.setItem('products', JSON.stringify(items));
 
-    let votedItems = JSON.parse(sessionStorage.getItem('votedItems') || '{}');
+    let votedItems = JSON.parse(localStorage.getItem('votedItems') || '{}');
     const newObj = {
       id: item.id,
       name: item.name,
@@ -274,7 +274,7 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
       votedItems.push(newObj);
     }
 
-    sessionStorage.setItem('votedItems', JSON.stringify(votedItems));
+    localStorage.setItem('votedItems', JSON.stringify(votedItems));
   }
 
   private setNewObj(

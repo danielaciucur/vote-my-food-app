@@ -12,7 +12,7 @@ export class VotesPage implements OnInit {
 
   constructor() {
     this.votedItems$.next(
-      JSON.parse(sessionStorage.getItem('votedItems') || '{}')
+      JSON.parse(localStorage.getItem('votedItems') || '{}')
     );
     console.log(this.votedItems$.getValue());
   }
@@ -20,7 +20,7 @@ export class VotesPage implements OnInit {
   ngOnInit() {}
 
   resetVotes() {
-    sessionStorage.removeItem('votedItems');
+    localStorage.removeItem('votedItems');
     this.votedItems$.next([]);
   }
 }
