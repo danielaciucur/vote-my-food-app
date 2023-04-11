@@ -7,11 +7,6 @@ import { VotesPageRoutingModule } from './votes-routing.module';
 
 @NgModule({
   declarations: [VotesPage],
-  imports: [
-    CommonModule,
-    IonicModule,
-    FormsModule,
-    VotesPageRoutingModule
-  ]
+  imports: [CommonModule, IonicModule, FormsModule, VotesPageRoutingModule],
 })
-export class VotesModule { }
+export class VotesModule {}

@@ -19,8 +19,8 @@ import { HammerModule } from '@angular/platform-browser';
     ProductsPageRoutingModule,
     HammerModule,
     StoreModule.forFeature('products', reducer),
-    EffectsModule.forFeature([ProductsEffect])
+    EffectsModule.forFeature([ProductsEffect]),
   ],
-  exports: [ProductsPage]
+  exports: [ProductsPage],
 })
-export class ProductsModule { }
+export class ProductsModule {}

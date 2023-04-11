@@ -1,9 +1,7 @@
-
 import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-
 
 @Component({
   selector: 'app-root',
@@ -21,22 +19,22 @@ export class AppComponent {
 
   appPages = [
     {
-       title: 'Show me food!',
-       url: '/products',
-       icon: 'list'
+      title: 'Show me food!',
+      url: '/products',
+      icon: 'list',
     },
     {
-       title: 'Voting History',
-       url: '/votes',
-       icon: 'bar-chart'
-    }
-  ]
+      title: 'Voting History',
+      url: '/votes',
+      icon: 'bar-chart',
+    },
+  ];
 
   initializeApp() {
     this.platform.ready().then((pl) => {
-      if (pl === 'cordova'){
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+      if (pl === 'cordova') {
+        this.statusBar.styleDefault();
+        this.splashScreen.hide();
       }
     });
   }

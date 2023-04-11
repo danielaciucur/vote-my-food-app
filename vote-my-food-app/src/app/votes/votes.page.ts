@@ -1,11 +1,6 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ApiService } from '../api.service';
-import { AppState } from '../app.state';
-import { VoteEnum, VotingHistory } from '../products/machine-product.model';
-import { loadVotingHistory } from '../store/actions/products.action';
-import { getVotingHistory } from '../store/product.selector';
+import { VotingHistory } from '../products/machine-product.model';
 
 @Component({
   selector: 'app-votes',

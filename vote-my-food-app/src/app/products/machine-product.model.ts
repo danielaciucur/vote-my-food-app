@@ -1,32 +1,32 @@
 export interface MachineProduct {
-    id: string;
-    name: string;
-    manufacturer: string;
-    shortDescription: string;
-    description: string;
-    price: number;
-    category: Category;
-    imageSet: ImageSet[];
-    quantity: number;
-    vote: VoteEnum;
+  id: string;
+  name: string;
+  manufacturer: string;
+  shortDescription: string;
+  description: string;
+  price: number;
+  category: Category;
+  imageSet: ImageSet[];
+  quantity: number;
+  vote: VoteEnum;
 }
 
 export interface VotingHistory {
-    name: string;
-    shortDescription: string;
-    imageSet: string;
-    vote: VoteEnum;
+  name: string;
+  shortDescription: string;
+  imageSet: string;
+  vote: VoteEnum;
 }
 
 export enum VoteEnum {
-    LIKE = 'LIKE',
-    DISLIKE = 'DISLIKE'
+  LIKE = 'LIKE',
+  DISLIKE = 'DISLIKE',
 }
 
 export interface Category {
-    name: string;
+  name: string;
 }
 
 export interface ImageSet {
-    url: string;
+  url: string;
 }
