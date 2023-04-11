@@ -14,6 +14,7 @@ export interface MachineProduct {
 export interface VotingHistory {
     name: string;
     shortDescription: string;
+    imageSet: string;
     vote: VoteEnum;
 }
 

@@ -15,18 +15,17 @@ import { getVotingHistory } from '../store/product.selector';
 export class VotesPage implements OnInit {
   votedItems$ = new BehaviorSubject<VotingHistory[]>([]);
 
-  constructor(private apiService: ApiService) { 
-    this.votedItems$.next(JSON.parse(sessionStorage.getItem('votedItems') || '{}'));
+  constructor() {
+    this.votedItems$.next(
+      JSON.parse(sessionStorage.getItem('votedItems') || '{}')
+    );
     console.log(this.votedItems$.getValue());
   }
 
-  ngOnInit() {
-   
-  }
+  ngOnInit() {}
 
   resetVotes() {
     sessionStorage.removeItem('votedItems');
     this.votedItems$.next([]);
   }
-
 }

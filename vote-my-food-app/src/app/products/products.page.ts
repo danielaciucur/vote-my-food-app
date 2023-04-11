@@ -2,21 +2,15 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  EventEmitter,
   OnDestroy,
   OnInit,
-  Output,
   QueryList,
   Renderer2,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { BehaviorSubject, interval, map, Subject, switchMap } from 'rxjs';
-import {
-  MachineProduct,
-  VoteEnum,
-  VotingHistory,
-} from './machine-product.model';
+import { BehaviorSubject, interval, map, Subject } from 'rxjs';
+import { MachineProduct, VoteEnum } from './machine-product.model';
 import { ApiService } from '../api.service';
 
 @Component({
@@ -46,8 +40,6 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('productsCardImage')
   productsCardImage!: ElementRef;
 
-  @Output() choiceMade = new EventEmitter();
-
   constructor(
     private renderer: Renderer2,
     //private store: Store<AppState>,
@@ -65,6 +57,14 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.loadProducts();
+  }
+
+  ngAfterViewInit() {
+    this.moveOutWidth = document.documentElement.clientWidth * 1.5;
+    this.productsCardArray = this.productsCard.toArray();
+    this.productsCard.changes.subscribe(() => {
+      this.productsCardArray = this.productsCard.toArray();
+    });
   }
 
   loadProducts() {
@@ -260,6 +260,7 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
     const newObj = {
       id: item.id,
       name: item.name,
+      imageSet: item.imageSet[0].url,
       shortDescription: item.shortDescription,
       vote: vote,
     };
@@ -268,16 +269,7 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
       const votedItemExists = votedItems.some(
         (obj: any) => obj.id === newObj.id
       );
-      if (!votedItemExists) {
-        votedItems.push(newObj);
-      } else {
-        const index = votedItems.findIndex(
-          (element: any) => element.id === newObj.id
-        );
-        if (index !== -1) {
-          votedItems[index].vote = vote;
-        }
-      }
+      this.setNewObj(votedItemExists, votedItems, newObj, vote);
     } else {
       votedItems.push(newObj);
     }
@@ -285,12 +277,27 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
     sessionStorage.setItem('votedItems', JSON.stringify(votedItems));
   }
 
-  ngAfterViewInit() {
-    this.moveOutWidth = document.documentElement.clientWidth * 1.5;
-    this.productsCardArray = this.productsCard.toArray();
-    this.productsCard.changes.subscribe(() => {
-      this.productsCardArray = this.productsCard.toArray();
-    });
+  private setNewObj(
+    votedItemExists: any,
+    votedItems: any,
+    newObj: {
+      id: string;
+      name: string;
+      shortDescription: string;
+      vote: VoteEnum;
+    },
+    vote: VoteEnum
+  ) {
+    if (!votedItemExists) {
+      votedItems.push(newObj);
+    } else {
+      const index = votedItems.findIndex(
+        (element: any) => element.id === newObj.id
+      );
+      if (index !== -1) {
+        votedItems[index].vote = vote;
+      }
+    }
   }
 
   ngOnDestroy() {
