@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
 import { ApiService } from '../api.service';
 import { AppState } from '../app.state';
-import { VotingHistory } from '../products/machine-product.model';
+import { VoteEnum, VotingHistory } from '../products/machine-product.model';
 import { loadVotingHistory } from '../store/actions/products.action';
 import { getVotingHistory } from '../store/product.selector';
 
@@ -26,7 +26,7 @@ export class VotesPage implements OnInit {
 
   resetVotes() {
     sessionStorage.removeItem('votedItems');
-    this.apiService.setRefreshItems(true);
+    this.votedItems$.next([]);
   }
 
 }

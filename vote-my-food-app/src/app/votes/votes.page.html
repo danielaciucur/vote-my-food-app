@@ -20,7 +20,9 @@
       <ion-row *ngFor="let item of votedItems$ | async">
         <ion-col>{{ item.name }}</ion-col>
         <ion-col>{{ item.shortDescription }}</ion-col>
-        <ion-col>{{ item.vote }}</ion-col>
+        <ion-col>
+          <ion-icon [name]="item.vote === 'LIKE' ? 'heart' : 'close'"></ion-icon>
+        </ion-col>
       </ion-row>
   </ion-grid>
 

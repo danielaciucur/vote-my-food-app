@@ -60,33 +60,29 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    if (!sessionStorage.getItem('products')) {
-      this.loadProducts();
-    }
-
     if (!sessionStorage.getItem('votedItems')) {
       sessionStorage.setItem('votedItems', JSON.stringify([]));
     }
 
-    this.filteredMachineProducts$.next(
-      JSON.parse(sessionStorage.getItem('products') || '{}')
-    );
-    console.log(this.filteredMachineProducts$.getValue());
-    console.log(JSON.parse(sessionStorage.getItem('products') || '{}'));
+    this.loadProducts();
   }
 
   loadProducts() {
     this.apiService
-    .getProducts()
-    .pipe(
-      map((resp) =>
-        resp.data.machineProducts.filter((product) =>
-          product.category.name.includes(this.CATEGORY_FILTER)
+      .getProducts()
+      .pipe(
+        map((resp) =>
+          resp.data.machineProducts.filter((product) =>
+            product.category.name.includes(this.CATEGORY_FILTER)
+          )
         )
       )
-    )
-    .subscribe((resp) =>
-      sessionStorage.setItem('products', JSON.stringify(resp))
+      .subscribe((resp) =>
+        sessionStorage.setItem('products', JSON.stringify(resp))
+      );
+
+    this.filteredMachineProducts$.next(
+      JSON.parse(sessionStorage.getItem('products') || '{}')
     );
   }
 
@@ -129,7 +125,10 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
         this.filteredMachineProducts$.getValue()[0],
         VoteEnum.DISLIKE
       );
-      this.voteItem(this.filteredMachineProducts$.getValue()[0], VoteEnum.DISLIKE);
+      this.voteItem(
+        this.filteredMachineProducts$.getValue()[0],
+        VoteEnum.DISLIKE
+      );
       //this.store.dispatch(addVotedItem({object: this.addItem(this.filteredMachineProducts$.getValue()[0], VoteEnum.DISLIKE)}));
     }
     this.shiftRequired = true;
@@ -224,7 +223,10 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
 
       this.shiftRequired = true;
 
-      this.voteItem(this.filteredMachineProducts$.getValue()[0], VoteEnum.DISLIKE);
+      this.voteItem(
+        this.filteredMachineProducts$.getValue()[0],
+        VoteEnum.DISLIKE
+      );
     }
     this.transitionInProgress = true;
   }
@@ -240,7 +242,7 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
     if (this.shiftRequired) {
       this.shiftRequired = false;
       //this.store.dispatch(removeItem());
-     this.filteredMachineProducts$.getValue().shift(); 
+      this.filteredMachineProducts$.getValue().shift();
     }
   }
 
@@ -255,17 +257,26 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
     sessionStorage.setItem('products', JSON.stringify(items));
 
     let votedItems = JSON.parse(sessionStorage.getItem('votedItems') || '{}');
-    const newObj = { id: item.id, name: item.name, shortDescription: item.shortDescription, vote: vote};
+    const newObj = {
+      id: item.id,
+      name: item.name,
+      shortDescription: item.shortDescription,
+      vote: vote,
+    };
 
     if (votedItems) {
-      const votedItemExists = votedItems.some((obj:any) => obj.id === newObj.id);
+      const votedItemExists = votedItems.some(
+        (obj: any) => obj.id === newObj.id
+      );
       if (!votedItemExists) {
         votedItems.push(newObj);
       } else {
-        const index = votedItems.findIndex((element:any) => element.id === newObj.id);
-          if (index !== -1) {
-            votedItems[index].vote = vote;
-          }         
+        const index = votedItems.findIndex(
+          (element: any) => element.id === newObj.id
+        );
+        if (index !== -1) {
+          votedItems[index].vote = vote;
+        }
       }
     } else {
       votedItems.push(newObj);

@@ -18,8 +18,8 @@ export interface VotingHistory {
 }
 
 export enum VoteEnum {
-    LIKE = 'like',
-    DISLIKE = 'dislike'
+    LIKE = 'LIKE',
+    DISLIKE = 'DISLIKE'
 }
 
 export interface Category {

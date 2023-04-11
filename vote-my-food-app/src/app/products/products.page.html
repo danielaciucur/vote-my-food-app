@@ -14,7 +14,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <div class="products" *ngIf="(filteredMachineProducts$ | async)?.length">
+  <div class="products" *ngIf="(filteredMachineProducts$ | async)?.length;">
 
     <div class="products--status">
   
@@ -54,4 +54,9 @@
     </div>
   
   </div>
+
+  <div *ngIf="!(filteredMachineProducts$ | async)?.length" class="ion-text-center">
+      <ion-button (click)="loadProducts()">Load more products!</ion-button>
+  </div>
+  
 </ion-content>
