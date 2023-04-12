@@ -49,6 +49,8 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
     this.store.pipe(select(getProducts), takeUntil(this.destroy$)).subscribe((resp: any) => {
       this.filteredMachineProducts$.next(resp.products);
     }); */
+
+    this.loadProducts();
   }
 
   ngOnInit() {
@@ -56,7 +58,10 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
       localStorage.setItem('votedItems', JSON.stringify([]));
     }
 
-    this.loadProducts();
+    interval(5000).subscribe(() => {
+      // make a request to your endpoint
+      this.loadProducts();
+    });
   }
 
   ngAfterViewInit() {
