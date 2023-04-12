@@ -14,7 +14,6 @@ export class VotesPage implements OnInit {
     this.votedItems$.next(
       JSON.parse(localStorage.getItem('votedItems') || '{}')
     );
-    console.log(this.votedItems$.getValue());
   }
 
   ngOnInit() {}
