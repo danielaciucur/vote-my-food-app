@@ -9,7 +9,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { BehaviorSubject, interval, map, Subject } from 'rxjs';
+import { BehaviorSubject, interval, map, Subject, takeUntil } from 'rxjs';
 import { MachineProduct, VoteEnum } from './machine-product.model';
 import { ApiService } from '../api.service';
 
@@ -59,7 +59,7 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
       localStorage.setItem('votedItems', JSON.stringify([]));
     }
 
-    interval(5000).subscribe(() => {
+    interval(5000).pipe(takeUntil(this.destroy$)).subscribe(() => {
       // make a request to your endpoint
       this.loadProducts();
     });
@@ -81,7 +81,7 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
   loadProducts() {
     this.apiService
       .getProducts()
-      .pipe(
+      .pipe(takeUntil(this.destroy$),
         map((resp) =>
           resp.data.machineProducts.filter((product) =>
             product.category.name.includes(this.CATEGORY_FILTER)
