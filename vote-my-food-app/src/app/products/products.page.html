@@ -30,7 +30,7 @@
   
     <div class="products--cards" (pan)="handlePan($event)" (panend)="handlePanEnd($event)">
   
-        <div #productsCard class="products--card" (transitionend)="handleShift()" *ngFor="let card of filteredMachineProducts$ | async; let i = index"
+        <div #productsCard class="products--card" (transitionend)="handleShift()" *ngFor="let card of filteredMachineProducts$ | async; let i = index; trackBy: trackByFn" 
             [ngStyle]="{ zIndex: getLength() - i, transform: 'scale(' + (20 - i) / 20 + ') translateY(-' + 20 * i + 'px)' }">
   
             <img #productsCardImage [src]="card.imageSet[0].url" (load)="productsCardImage.style.opacity = '1'">

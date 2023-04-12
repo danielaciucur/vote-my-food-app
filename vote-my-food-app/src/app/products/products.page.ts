@@ -72,6 +72,11 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  trackByFn(index: number, item: any) {
+    // return a unique identifier for the item
+    return item.id;
+  }
+
   loadProducts() {
     this.apiService
       .getProducts()
