@@ -91,6 +91,7 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((resp) => {
         if (!this.getReviewedItems(resp)) {
           localStorage.setItem('products', JSON.stringify(resp))
+          this.errorMessage = '';
         } else {
           this.errorMessage = "You have reviewed everything!"
         }
@@ -104,7 +105,11 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
 
   getReviewedItems(data: MachineProduct[]) {
     const reviewedItems = JSON.parse(localStorage.getItem('votedItems') || '{}');
-    return data.some(obj1 => reviewedItems.some((obj2: any) => obj1.id === obj2.id));
+    if (reviewedItems) {
+      return data.some(obj1 => reviewedItems.some((obj2: any) => obj1.id === obj2.id));
+    } else {
+      return false;
+    }
   }
 
   setOpacity() {
