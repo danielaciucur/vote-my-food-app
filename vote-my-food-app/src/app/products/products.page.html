@@ -58,5 +58,7 @@
   <div *ngIf="!(filteredMachineProducts$ | async)?.length" class="ion-text-center">
       <ion-button (click)="loadProducts()">Load more products!</ion-button>
   </div>
+
+  <ion-label *ngIf="errorMessage">{{errorMessage}}</ion-label>
   
 </ion-content>

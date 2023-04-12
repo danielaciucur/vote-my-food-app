@@ -34,6 +34,7 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
   productsCard!: QueryList<ElementRef>;
   productsCardArray: Array<ElementRef> = [];
   interval$ = interval(5000);
+  errorMessage = '';
 
   private CATEGORY_FILTER = 'Hauptspeisen - Mains';
 
@@ -87,13 +88,23 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
           )
         )
       )
-      .subscribe((resp) =>
-      localStorage.setItem('products', JSON.stringify(resp))
+      .subscribe((resp) => {
+        if (!this.getReviewedItems(resp)) {
+          localStorage.setItem('products', JSON.stringify(resp))
+        } else {
+          this.errorMessage = "You have reviewed everything!"
+        }
+      }
       );
 
     this.filteredMachineProducts$.next(
       JSON.parse(localStorage.getItem('products') || '{}')
     );
+  }
+
+  getReviewedItems(data: MachineProduct[]) {
+    const reviewedItems = JSON.parse(localStorage.getItem('votedItems') || '{}');
+    return data.some(obj1 => reviewedItems.some((obj2: any) => obj1.id === obj2.id));
   }
 
   setOpacity() {
