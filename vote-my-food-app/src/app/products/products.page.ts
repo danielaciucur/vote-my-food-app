@@ -34,7 +34,7 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
   productsCard!: QueryList<ElementRef>;
   productsCardArray: Array<ElementRef> = [];
   interval$ = interval(5000);
-  errorMessage = '';
+  errorMessage = 'You have reviewed everything';
 
   private CATEGORY_FILTER = 'Hauptspeisen - Mains';
 
@@ -91,9 +91,6 @@ export class ProductsPage implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((resp) => {
         if (!this.getReviewedItems(resp)) {
           localStorage.setItem('products', JSON.stringify(resp))
-          this.errorMessage = '';
-        } else {
-          this.errorMessage = "You have reviewed everything!"
         }
       }
       );
